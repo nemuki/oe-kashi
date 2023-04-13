@@ -627,6 +627,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "axios@npm:0.23.0"
+  dependencies:
+    follow-redirects: ^1.14.4
+  checksum: 879f61022bd825da2a7ebb72410bc528683ba54c140436baa0b924b7cab02ec0919fe64a04a546f482a75f5fd570b77884f9826764a95f2fd88265e61dcb70db
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -929,6 +938,16 @@ __metadata:
   version: 1.0.5
   resolution: "escape-string-regexp@npm:1.0.5"
   checksum: 6092fda75c63b110c706b6a9bfde8a612ad595b628f0bd2147eea1d3406723020810e591effc7db1da91d80a71a737a313567c5abb3813e8d9c71f4aa595b410
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.14.4":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
   languageName: node
   linkType: hard
 
@@ -1412,6 +1431,7 @@ __metadata:
     "@vitejs/plugin-react": ^3.1.0
     react: ^18.2.0
     react-dom: ^18.2.0
+    textalive-app-api: ^0.3.2
     vite: ^4.2.0
   languageName: unknown
   linkType: soft
@@ -1722,6 +1742,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"songle-api@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "songle-api@npm:1.2.2"
+  dependencies:
+    w3c-xmlhttprequest: ^2.1.2
+  checksum: 363d9460c4ce6102c50ddd8d0c43fdbed93212e93927d3519b398604f70830fadac6a4c5ac9014af8a34d03154134a8e1d817ba87cb7095d886ff72a67cc718e
+  languageName: node
+  linkType: hard
+
 "source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
@@ -1794,6 +1823,20 @@ __metadata:
     mkdirp: ^1.0.3
     yallist: ^4.0.0
   checksum: 8a278bed123aa9f53549b256a36b719e317c8b96fe86a63406f3c62887f78267cea9b22dc6f7007009738509800d4a4dccc444abd71d762287c90f35b002eb1c
+  languageName: node
+  linkType: hard
+
+"textalive-app-api@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "textalive-app-api@npm:0.3.2"
+  dependencies:
+    axios: ^0.23.0
+    songle-api: ^1.2.2
+    webfontloader: ^1.6.28
+  dependenciesMeta:
+    songle-api:
+      optional: true
+  checksum: fd2781964f953e04e76774da1a2bb9a3fb3e9b54e7d582bb0709377d97ef4219fe234030cc2dd457f70f00a6416ba43e3419b599a14abecb24ee4df8c2bdb74c
   languageName: node
   linkType: hard
 
@@ -1878,6 +1921,20 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 70eb162ffc299017a3c310e3adc95e9661def6b17aafd1f8e5e02e516766060435590dbe3df1e4e95acc3583c728a76e91f07c546221d1e701f1b2b021293f45
+  languageName: node
+  linkType: hard
+
+"w3c-xmlhttprequest@npm:^2.1.2":
+  version: 2.2.0
+  resolution: "w3c-xmlhttprequest@npm:2.2.0"
+  checksum: f886d222db7a52e8eff1369204658dc8e18542b4b655adeb6862a881cd386a3d2da8b0d1aa3b2e282e4a21dc62406f3876e8887f75cbbaf7e24f42afea4bacfa
+  languageName: node
+  linkType: hard
+
+"webfontloader@npm:^1.6.28":
+  version: 1.6.28
+  resolution: "webfontloader@npm:1.6.28"
+  checksum: cbebbe593cb0d27dbb4d418f7f96bd9893024f1f2062e858af76209b6524e25d766964b6e2a724f3b694fadef661dd3a01065455a96df05337b3281ca09ab656
   languageName: node
   linkType: hard
 
