@@ -18,7 +18,9 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "latest",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "latest",
+    "prettier": "2.8.7",
     "vite": "^4.2.0"
   },
   "volta": {
