@@ -67,7 +67,6 @@ function App() {
     })
 
     const playMusic = () => {
-        console.log('つらい')
         if (player) {
             if (player.isPlaying) {
                 player.requestPause()
