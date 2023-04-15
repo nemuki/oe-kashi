@@ -42,11 +42,9 @@ jobs:
             - name: Run Prettier
               run: pnpm format
 
-    Build:
+    Preview:
+        if: github.event_name == 'pull_request'
         runs-on: ubuntu-latest
-        needs:
-            - ESLint
-            - Prettier
         steps:
             - name: Checkout
               uses: actions/checkout@v3
@@ -59,31 +57,10 @@ jobs:
 
             - name: Create .env
               run: |
-                  touch .env
-                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" >> .env
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
 
             - name: Run Build
               run: pnpm build
-
-            - name: Upload build files
-              uses: actions/upload-artifact@v3
-              with:
-                  name: dist
-                  path: dist
-
-    Preview:
-        if: github.event_name == 'pull_request'
-        runs-on: ubuntu-latest
-        needs:
-            - Build
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-
-            - name: Download build files
-              uses: actions/download-artifact@v3
-              with:
-                  name: dist
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
@@ -95,40 +72,40 @@ jobs:
                   directory: dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Comment deploy url
-              uses: actions/github-script@v6
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      github.rest.issues.createComment({
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        issue_number: context.payload.pull_request.number,
-                        body: '
-                      ## <span aria-hidden="true">✅</span> Deploy Preview ready!
+            - name: Add comment
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  echo '### <span aria-hidden="true">✅</span> Deploy Preview ready!' > temp
+                  echo '' >> temp
+                  echo '| Name | Link |' >> temp
+                  echo '|------|------|' >> temp
+                  echo "|<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |" >> temp
+                  echo "|<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |" >> temp
+                  echo "|<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |" >> temp
+                  echo "|<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |" >> temp
 
-                      |  Name | Link |
-                      |---------------------------------|------------------------|
-                      |<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |
-                      |<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |
-                      |<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |
-                      |<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |
-                      ---
-                      '})
+                  gh pr comment "$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')" -b "$(cat temp)"
 
     Production:
         if: github.event_name == 'push'
         runs-on: ubuntu-latest
-        needs:
-            - Build
         steps:
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Download build files
-              uses: actions/download-artifact@v3
-              with:
-                  name: dist
+            - name: Prepare
+              uses: ./.github/actions/prepare
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Create .env
+              run: |
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
+
+            - name: Run Build
+              run: pnpm build
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
