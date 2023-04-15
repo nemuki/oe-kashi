@@ -14,15 +14,13 @@
         "lint": "eslint .",
         "lint:fix": "eslint --fix .",
         "format": "prettier --check .",
-        "format:fix": "prettier --write .",
-        "deploy": "vite build && wrangler pages publish dist"
+        "format:fix": "prettier --write ."
     },
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "textalive-app-api": "^0.3.2",
-        "the-new-css-reset": "^1.8.4",
-        "wrangler": "^2.15.1"
+        "the-new-css-reset": "^1.8.4"
     },
     "devDependencies": {
         "@eslint/js": "^8.38.0",
