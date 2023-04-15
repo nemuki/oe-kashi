@@ -7,7 +7,7 @@ import TextAliveHeader from './components/header.jsx'
 const player = new Player({
     // オプション一覧
     // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
-    app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_TOKEN },
+    app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_API_TOKEN },
     mediaElement: document.querySelector('#media'),
     mediaBannerPosition: 'bottom right',
 })
