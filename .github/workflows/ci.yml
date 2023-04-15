@@ -57,8 +57,7 @@ jobs:
 
             - name: Create .env
               run: |
-                  touch .env
-                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" >> .env
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
 
             - name: Run Build
               run: pnpm build
@@ -73,21 +72,18 @@ jobs:
                   directory: dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Comment deploy url
-              uses: mshick/add-pr-comment@v2
-              with:
-                  message-id: cloudflare-deploy
-                  message: |
-                      ### <span aria-hidden="true">✅</span> Deploy Preview ready!
+            - name: Add comment
+              run: |
+                  echo '### <span aria-hidden="true">✅</span> Deploy Preview ready!' > temp
+                  echo '' >> temp
+                  echo '| Name | Link |' >> temp
+                  echo '|------|------|' >> temp
+                  echo "|<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |" >> temp
+                  echo "|<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |" >> temp
+                  echo "|<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |" >> temp
+                  echo "|<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |" >> temp
 
-
-                      |  Name | Link |
-                      |---------------------------------|------------------------|
-                      |<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |
-                      |<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |
-                      |<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |
-                      |<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |
-                      ---
+                  gh pr comment "$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')" -b "$(cat temp)"
 
     Production:
         if: github.event_name == 'push'
@@ -104,8 +100,7 @@ jobs:
 
             - name: Create .env
               run: |
-                  touch .env
-                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" >> .env
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
 
             - name: Run Build
               run: pnpm build
