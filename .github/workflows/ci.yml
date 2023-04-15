@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI / CD
 
 on:
     pull_request:
@@ -130,5 +130,5 @@ jobs:
                         description: 'Cloudflare Pages deployment',
                         state: 'success',
                         sha,
-                        target_url: "${{ steps.cloudflare_pages_deploy.outputs.url }}",
+                        target_url: "${{ steps.cloudflare.outputs.url }}",
                       });
