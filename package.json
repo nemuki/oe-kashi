@@ -19,7 +19,8 @@
     "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "textalive-app-api": "^0.3.2"
+        "textalive-app-api": "^0.3.2",
+        "the-new-css-reset": "^1.8.4"
     },
     "devDependencies": {
         "@eslint/js": "^8.38.0",
