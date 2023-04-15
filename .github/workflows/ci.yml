@@ -91,7 +91,7 @@ jobs:
               with:
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  projectName: プロジェクト名
+                  projectName: oe-kashi
                   directory: dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
@@ -116,12 +116,6 @@ jobs:
                       ---
                       '})
 
-            - name: Comment deploy url
-              uses: mshick/add-pr-comment@v2
-              with:
-                  message-id: cloudflare-deploy
-                  message: |
-
     Production:
         if: github.event_name == 'push'
         runs-on: ubuntu-latest
@@ -142,6 +136,6 @@ jobs:
               with:
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  projectName: プロジェクト名
+                  projectName: oe-kashi
                   directory: dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
