@@ -10,7 +10,11 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "format": "prettier --check .",
+        "format:fix": "prettier --write ."
     },
     "dependencies": {
         "react": "^18.2.0",
@@ -21,10 +25,10 @@
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.11",
         "@vitejs/plugin-react": "^3.1.0",
-        "eslint": "latest",
+        "eslint": "^8.38.0",
         "eslint-config-prettier": "^8.8.0",
-        "eslint-plugin-react": "latest",
-        "prettier": "2.8.7",
+        "eslint-plugin-react": "^7.32.2",
+        "prettier": "^2.8.7",
         "vite": "^4.2.0"
     }
 }
