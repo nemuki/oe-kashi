@@ -1,6 +1,6 @@
 # negi
 
-おえかし
+おえかし お絵歌詞 お絵描詞
 
 目標: 歌詞で絵を描く
 
@@ -9,7 +9,7 @@
 
 ## TextAlive App API
 
-![TextAlive](https://i.gyazo.com/thumb/1000/5301e6f642d255c5cfff98e049b6d1f3-png.png)
+[![TextAlive Logo](https://i.gyazo.com/thumb/1000/5301e6f642d255c5cfff98e049b6d1f3-png.png)](https://textalive.jp/)
 
 TextAlive App API は、音楽に合わせてタイミングよく歌詞が動く Web アプリケーション（リリックアプリ）を開発できる JavaScript 用のライブラリです。
 
