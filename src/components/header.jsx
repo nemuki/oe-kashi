@@ -2,12 +2,17 @@ function TextAliveHeader(props) {
     return (
         <div id="header">
             <div id="control" className="far">
-                <a href="#" onClick={props.onPlay} id="play" className={props.onTimerReady ? '' : 'disabled'}>
-                    &#xf144;
-                </a>
-                <a href="#" onClick={props.onPlay} id="stop" className={props.onTimerReady ? '' : 'disabled'}>
-                    &#xf28d;
-                </a>
+                <button
+                    type={'button'}
+                    onClick={props.playMusic}
+                    id="play"
+                    className={props.onTimerReady ? '' : 'disabled'}
+                >
+                    {props.playOrPause}
+                </button>
+                <button id="stop" className={props.onTimerReady ? '' : 'disabled'}>
+                    リセット
+                </button>
             </div>
             <div id="meta">
                 <div id="artist">artist: {props.artist}</div>

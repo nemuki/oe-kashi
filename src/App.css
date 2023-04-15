@@ -9,17 +9,25 @@
     display: none;
 }
 
-#control a {
+#control {
     color: rgb(99 208 226);
     text-decoration: none;
 }
 
-#control a.disabled {
+#control button.disabled {
     opacity: 0.3;
 }
 
-#control a:hover {
+#control button:hover {
     color: rgb(255 148 56);
+}
+
+#play {
+    cursor: pointer;
+}
+
+#stop {
+    cursor: pointer;
 }
 
 /* アーティストと楽曲の情報 / Artist and song info */
