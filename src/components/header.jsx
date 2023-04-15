@@ -2,10 +2,10 @@ function TextAliveHeader(props) {
     return (
         <div id="header">
             <div id="control" className="far">
-                <a href="#" id="play" className="disabled">
+                <a href="#" onClick={props.onPlay} id="play" className={props.onTimerReady ? '' : 'disabled'}>
                     &#xf144;
                 </a>
-                <a href="#" id="stop" className="disabled">
+                <a href="#" onClick={props.onPlay} id="stop" className={props.onTimerReady ? '' : 'disabled'}>
                     &#xf28d;
                 </a>
             </div>

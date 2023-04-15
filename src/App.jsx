@@ -8,12 +8,14 @@ function App() {
     const player = new Player({
         // オプション一覧
         // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
-        app: { token: import.meta.env.TEXT_ALIVE_APP_TOKEN },
+        app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_TOKEN },
         mediaElement: document.querySelector('#media'),
         mediaBannerPosition: 'bottom right',
     })
+
     const [artist, setArtist] = useState('')
     const [songName, setSongName] = useState('')
+    const [onTimerReady, setOnTimerReady] = useState(false)
 
     useEffect(() => {
         player.addListener({
@@ -50,8 +52,7 @@ function App() {
 
             /* 再生コントロールができるようになったら呼ばれる */
             onTimerReady() {
-                document.querySelector('#control > a#play').className = ''
-                document.querySelector('#control > a#stop').className = ''
+                setOnTimerReady(true)
             },
 
             /* 楽曲の再生が始まったら呼ばれる */
@@ -70,9 +71,19 @@ function App() {
         })
     }, [])
 
+    const onPlay = () => {
+        if (player) {
+            if (player.isPlaying) {
+                player.requestPause()
+            } else {
+                player.requestPlay()
+            }
+        }
+    }
+
     return (
         <div className="App">
-            <TextAliveHeader artist={artist} songName={songName} />
+            <TextAliveHeader artist={artist} songName={songName} onTimerReady={onTimerReady} onPlay={() => onPlay()} />
             <div id="media"></div>
         </div>
     )
