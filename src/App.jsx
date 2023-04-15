@@ -76,6 +76,12 @@ function App() {
         }
     }
 
+    const resetMusic = () => {
+        if (player) {
+            player.requestStop()
+        }
+    }
+
     return (
         <div className="App">
             <TextAliveHeader
@@ -84,6 +90,7 @@ function App() {
                 onTimerReady={onTimerReady}
                 playOrPause={playOrPause}
                 playMusic={playMusic}
+                resetMusic={resetMusic}
             />
             <div id="media"></div>
         </div>

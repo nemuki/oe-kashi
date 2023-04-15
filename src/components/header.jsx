@@ -10,7 +10,12 @@ function TextAliveHeader(props) {
                 >
                     {props.playOrPause}
                 </button>
-                <button id="stop" className={props.onTimerReady ? '' : 'disabled'}>
+                <button
+                    type={'button'}
+                    onClick={props.resetMusic}
+                    id="stop"
+                    className={props.onTimerReady ? '' : 'disabled'}
+                >
                     リセット
                 </button>
             </div>
