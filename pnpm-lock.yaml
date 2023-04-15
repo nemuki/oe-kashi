@@ -1924,7 +1924,7 @@ packages:
     dev: true
 
   /textalive-app-api@0.3.2:
-    resolution: { integrity: sha512-MWeQ5WXtIiMiHDFgsQHxRFlWSLlJeX10JLRvT4vo+IziwI/zxsSaDEXtgyYVS1WToH+cHEwOj7PgNnAGgkahTA== }
+    resolution: {integrity: sha512-MWeQ5WXtIiMiHDFgsQHxRFlWSLlJeX10JLRvT4vo+IziwI/zxsSaDEXtgyYVS1WToH+cHEwOj7PgNnAGgkahTA==}
     dependencies:
       axios: 0.23.0
       webfontloader: 1.6.28
@@ -1935,17 +1935,17 @@ packages:
     dev: false
 
   /the-new-css-reset@1.8.4:
-    resolution: { integrity: sha512-Upmb9XTyk78BmTbMQuAOTlESH9zmwqDAmmYC9MVm7uZLQdvGfxFTMhbpjKMUDwfmXGKnq6nkzISs/ReqHUP5xg== }
+    resolution: {integrity: sha512-Upmb9XTyk78BmTbMQuAOTlESH9zmwqDAmmYC9MVm7uZLQdvGfxFTMhbpjKMUDwfmXGKnq6nkzISs/ReqHUP5xg==}
     dev: false
 
   /to-fast-properties@2.0.0:
-    resolution: { integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog== }
-    engines: { node: '>=4' }
+    resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==}
+    engines: {node: '>=4'}
     dev: true
 
   /type-check@0.4.0:
-    resolution: { integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew== }
-    engines: { node: '>= 0.8.0' }
+    resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
+    engines: {node: '>= 0.8.0'}
     dependencies:
       prelude-ls: 1.2.1
     dev: true
