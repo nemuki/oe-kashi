@@ -65,12 +65,6 @@ jobs:
             - name: Run Build
               run: pnpm build
 
-            - name: Upload build files
-              uses: actions/upload-artifact@v3
-              with:
-                  name: dist
-                  path: dist
-
     Preview:
         if: github.event_name == 'pull_request'
         runs-on: ubuntu-latest
@@ -80,10 +74,19 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Download build files
-              uses: actions/download-artifact@v3
-              with:
-                  name: dist
+            - name: Prepare
+              uses: ./.github/actions/prepare
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Create .env
+              run: |
+                  touch .env
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" >> .env
+
+            - name: Run Build
+              run: pnpm build
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
@@ -125,10 +128,19 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
-            - name: Download build files
-              uses: actions/download-artifact@v3
-              with:
-                  name: dist
+            - name: Prepare
+              uses: ./.github/actions/prepare
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Create .env
+              run: |
+                  touch .env
+                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" >> .env
+
+            - name: Run Build
+              run: pnpm build
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
