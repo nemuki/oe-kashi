@@ -15,7 +15,7 @@
         "lint:fix": "eslint --fix .",
         "format": "prettier --check .",
         "format:fix": "prettier --write .",
-        "publish": "vite build && wrangler pages publish dist"
+        "deploy": "vite build && wrangler pages publish dist"
     },
     "dependencies": {
         "react": "^18.2.0",
