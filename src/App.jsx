@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Player } from 'textalive-app-api'
+import TextAliveHeader from './components/header.jsx'
 
 function App() {
+    // TextAlive Player
+    const player = new Player({
+        // オプション一覧
+        // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
+        app: { token: import.meta.env.TEXT_ALIVE_APP_TOKEN },
+        mediaElement: document.querySelector('#media'),
+        mediaBannerPosition: 'bottom right',
+    })
     const [artist, setArtist] = useState('')
     const [songName, setSongName] = useState('')
 
     useEffect(() => {
-        const player = new Player({
-            app: { token: import.meta.env.TEXT_ALIVE_APP_TOKEN },
-            mediaElement: document.querySelector('#media'),
-            mediaBannerPosition: 'bottom right',
-        })
-
         player.addListener({
             /* APIの準備ができたら呼ばれる */
             onAppReady(app) {
@@ -69,21 +72,7 @@ function App() {
 
     return (
         <div className="App">
-            <div id="header">
-                <div id="control" className="far">
-                    <a href="#" id="play" className="disabled">
-                        &#xf144;
-                    </a>
-                    <a href="#" id="stop" className="disabled">
-                        &#xf28d;
-                    </a>
-                </div>
-                <div id="meta">
-                    <div id="artist">artist: {artist}</div>
-                    <div id="song">song: {songName}</div>
-                </div>
-            </div>
-
+            <TextAliveHeader artist={artist} songName={songName} />
             <div id="media"></div>
         </div>
     )
