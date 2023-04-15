@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
     pull_request:
@@ -10,6 +10,7 @@ permissions:
     contents: read
     deployments: write
     pull-requests: write
+    statuses: write
 
 jobs:
     ESLint:
@@ -64,7 +65,7 @@ jobs:
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
-              uses: cloudflare/pages-action@1
+              uses: cloudflare/pages-action@v1
               with:
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -109,10 +110,25 @@ jobs:
 
             - name: Deploy Cloudflare Pages
               id: cloudflare
-              uses: cloudflare/pages-action@1
+              uses: cloudflare/pages-action@v1
               with:
                   accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
                   apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   projectName: oe-kashi
                   directory: dist
                   gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Add publish URL as commit status
+              uses: actions/github-script@v6
+              with:
+                  script: |
+                      const sha = context.payload.pull_request?.head.sha ?? context.sha;
+                      await github.rest.repos.createCommitStatus({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        context: 'Cloudflare Pages',
+                        description: 'Cloudflare Pages deployment',
+                        state: 'success',
+                        sha,
+                        target_url: "${{ steps.cloudflare_pages_deploy.outputs.url }}",
+                      });
