@@ -12,61 +12,62 @@ const player = new Player({
     mediaBannerPosition: 'bottom right',
 })
 
+player.addListener({
+    /* APIの準備ができたら呼ばれる */
+    onAppReady(app) {
+        // https://developer.textalive.jp/events/magicalmirai2023/
+        // king妃jack躍 / 宮守文学 feat. 初音ミク
+        player.createFromSongUrl('https://piapro.jp/t/ucgN/20230110005414', {
+            video: {
+                // 音楽地図訂正履歴: https://songle.jp/songs/2427948/history
+                beatId: 4267297,
+                chordId: 2405019,
+                repetitiveSegmentId: 2405019,
+                // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FucgN%2F20230110005414
+                lyricId: 56092,
+                lyricDiffId: 9636,
+            },
+        })
+    },
+})
+
 function App() {
     const [artist, setArtist] = useState('')
     const [songName, setSongName] = useState('')
     const [playOrPause, setPlayOrPause] = useState('再生')
-    const [onTimerReady, setOnTimerReady] = useState(false)
+    const [stateOnTimerReady, setStateOnTimerReady] = useState(false)
 
     useEffect(() => {
         player.addListener({
-            /* APIの準備ができたら呼ばれる */
-            onAppReady(app) {
-                if (app.managed) {
-                    document.querySelector('#control').className = 'disabled'
-                }
-                if (!app.songUrl) {
-                    document.querySelector('#media').className = 'disabled'
-
-                    // https://developer.textalive.jp/events/magicalmirai2023/
-                    // king妃jack躍 / 宮守文学 feat. 初音ミク
-                    player.createFromSongUrl('https://piapro.jp/t/ucgN/20230110005414', {
-                        video: {
-                            // 音楽地図訂正履歴: https://songle.jp/songs/2427948/history
-                            beatId: 4267297,
-                            chordId: 2405019,
-                            repetitiveSegmentId: 2405019,
-                            // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FucgN%2F20230110005414
-                            lyricId: 56092,
-                            lyricDiffId: 9636,
-                        },
-                    })
-                }
-            },
-
-            /* 楽曲情報が取れたら呼ばれる */
-            onVideoReady() {
-                // 楽曲情報を表示
-                setArtist(player.data.song.artist.name)
-                setSongName(player.data.song.name)
-            },
-
-            /* 再生コントロールができるようになったら呼ばれる */
-            onTimerReady() {
-                setOnTimerReady(true)
-            },
-
-            /* 楽曲の再生が始まったら呼ばれる */
-            onPlay() {
-                setPlayOrPause('停止')
-            },
-
-            /* 楽曲の再生が止まったら呼ばれる */
-            onPause() {
-                setPlayOrPause('再生')
-            },
+            onAppReady,
+            onVideoReady,
+            onTimerReady,
+            onPlay,
+            onPause,
         })
     }, [])
+
+    /* 楽曲情報が取れたら呼ばれる */
+    const onVideoReady = () => {
+        // 楽曲情報を表示
+        setArtist(player.data.song.artist.name)
+        setSongName(player.data.song.name)
+    }
+
+    /* 再生コントロールができるようになったら呼ばれる */
+    const onTimerReady = () => {
+        setStateOnTimerReady(true)
+    }
+
+    /* 楽曲の再生が始まったら呼ばれる */
+    const onPlay = () => {
+        setPlayOrPause('停止')
+    }
+
+    /* 楽曲の再生が止まったら呼ばれる */
+    const onPause = () => {
+        setPlayOrPause('再生')
+    }
 
     const playMusic = () => {
         if (player) {
@@ -89,7 +90,7 @@ function App() {
             <TextAliveHeader
                 artist={artist}
                 songName={songName}
-                onTimerReady={onTimerReady}
+                onTimerReady={stateOnTimerReady}
                 playOrPause={playOrPause}
                 playMusic={playMusic}
                 resetMusic={resetMusic}
