@@ -1,11 +1,19 @@
-# negi
+# negi - oe-kashi
 
 おえかし お絵歌詞 お絵描詞
 
+[![CI / CD](https://github.com/nemuki/negi/actions/workflows/ci.yml/badge.svg)](https://github.com/nemuki/negi/actions/workflows/ci.yml)
+
+デプロイ先: <https://oe-kashi.pages.dev>
+
 目標: 歌詞で絵を描く
 
--   [ ] マウスのある位置に歌詞がおける
--   [ ] 後ろに何かトレースできる
+- [x] マウスのある位置に歌詞がおける
+  - [ ] 量の調整
+  - [ ] マウスイベントの範囲調整
+  - [ ] スマホ対応
+- [ ] おいた時にエフェクトがかかる
+- [ ] 後ろに何かトレースできる
 
 ## TextAlive App API
 
