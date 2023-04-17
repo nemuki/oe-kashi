@@ -5,12 +5,13 @@ import TextAliveController from './components/TextAliveController.jsx'
 import Mouse from './components/Mouse.jsx'
 
 function App() {
+    const [app, setApp] = useState(null)
     const [player, setPlayer] = useState(null)
+    const [mediaElement, setMediaElement] = useState(null)
+
     const [artistName, setArtistName] = useState('')
     const [songName, setSongName] = useState('')
-    const [char, setChar] = useState('')
-    const [app, setApp] = useState(null)
-    const [mediaElement, setMediaElement] = useState(null)
+    const [lyrics, setLyrics] = useState([''])
 
     const media = useMemo(() => <div className="media" ref={setMediaElement} />, [])
 
@@ -68,7 +69,7 @@ function App() {
                 while (charLyrics && charLyrics.next) {
                     charLyrics.animate = (now, u) => {
                         if (u.startTime <= now && u.endTime > now) {
-                            setChar(char + u.text)
+                            setLyrics((lyrics) => [...lyrics, u.text])
                         }
                     }
                     charLyrics = charLyrics.next
@@ -98,7 +99,7 @@ function App() {
                 </>
             )}
             <Mouse />
-            <div>{char}</div>
+            <div>{lyrics}</div>
             {media}
         </>
     )
