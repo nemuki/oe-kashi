@@ -1,104 +1,106 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
 import Mouse from './components/Mouse.jsx'
 
-// TextAlive Player
-const player = new Player({
-    // オプション一覧
-    // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
-    app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_API_TOKEN },
-    mediaElement: document.querySelector('#media'),
-    mediaBannerPosition: 'bottom right',
-})
-
-player.addListener({
-    /* APIの準備ができたら呼ばれる */
-    onAppReady(app) {
-        // https://developer.textalive.jp/events/magicalmirai2023/
-        // king妃jack躍 / 宮守文学 feat. 初音ミク
-        player.createFromSongUrl('https://piapro.jp/t/ucgN/20230110005414', {
-            video: {
-                // 音楽地図訂正履歴: https://songle.jp/songs/2427948/history
-                beatId: 4267297,
-                chordId: 2405019,
-                repetitiveSegmentId: 2405019,
-                // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FucgN%2F20230110005414
-                lyricId: 56092,
-                lyricDiffId: 9636,
-            },
-        })
-    },
-})
-
 function App() {
-    const [artist, setArtist] = useState('')
+    const [player, setPlayer] = useState(null)
+    const [artistName, setArtistName] = useState('')
     const [songName, setSongName] = useState('')
-    const [playOrPause, setPlayOrPause] = useState('再生')
-    const [stateOnTimerReady, setStateOnTimerReady] = useState(false)
+    const [char, setChar] = useState('')
+    const [app, setApp] = useState(null)
+    const [mediaElement, setMediaElement] = useState(null)
+
+    const media = useMemo(() => <div className="media" ref={setMediaElement} />, [])
 
     useEffect(() => {
-        player.addListener({
-            onVideoReady,
-            onTimerReady,
-            onPlay,
-            onPause,
+        if (typeof window === 'undefined' || !mediaElement) {
+            return
+        }
+
+        console.log('--- [app] create Player instance ---')
+        const player = new Player({
+            // オプション一覧
+            // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
+            app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_API_TOKEN },
+            mediaElement: mediaElement,
+            mediaBannerPosition: 'bottom right',
         })
-    }, [])
 
-    /* 楽曲情報が取れたら呼ばれる */
-    const onVideoReady = () => {
-        // 楽曲情報を表示
-        setArtist(player.data.song.artist.name)
-        setSongName(player.data.song.name)
-    }
+        const playerListener = {
+            /* APIの準備ができたら呼ばれる */
+            onAppReady: (app) => {
+                console.log('--- [app] initialized as TextAlive app ---')
+                console.log('managed:', app.managed)
+                console.log('host:', app.host)
+                console.log('song url:', app.songUrl)
+                if (!app.songUrl) {
+                    // https://developer.textalive.jp/events/magicalmirai2023/
+                    // king妃jack躍 / 宮守文学 feat. 初音ミク
+                    player.createFromSongUrl('https://piapro.jp/t/ucgN/20230110005414', {
+                        video: {
+                            // 音楽地図訂正履歴: https://songle.jp/songs/2427948/history
+                            beatId: 4267297,
+                            chordId: 2405019,
+                            repetitiveSegmentId: 2405019,
+                            // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FucgN%2F20230110005414
+                            lyricId: 56092,
+                            lyricDiffId: 9636,
+                        },
+                    })
+                }
+                setApp(app)
+            },
+            /* 楽曲情報が取れたら呼ばれる */
+            onVideoReady: () => {
+                console.log('--- [app] video is ready ---')
+                console.log('player:', player)
+                console.log('player.data.song:', player.data.song)
+                console.log('player.data.song.name:', player.data.song.name)
+                console.log('player.data.song.artist.name:', player.data.song.artist.name)
+                console.log('player.data.songMap:', player.data.songMap)
 
-    /* 再生コントロールができるようになったら呼ばれる */
-    const onTimerReady = () => {
-        setStateOnTimerReady(true)
-    }
+                setSongName(player.data.song.name)
+                setArtistName(player.data.song.artist.name)
 
-    /* 楽曲の再生が始まったら呼ばれる */
-    const onPlay = () => {
-        setPlayOrPause('停止')
-    }
-
-    /* 楽曲の再生が止まったら呼ばれる */
-    const onPause = () => {
-        setPlayOrPause('再生')
-    }
-
-    const playMusic = () => {
-        if (player) {
-            if (player.isPlaying) {
-                player.requestPause()
-            } else {
-                player.requestPlay()
-            }
+                let charLyrics = player.video.firstChar
+                while (charLyrics && charLyrics.next) {
+                    charLyrics.animate = (now, u) => {
+                        if (u.startTime <= now && u.endTime > now) {
+                            setChar(char + u.text)
+                        }
+                    }
+                    charLyrics = charLyrics.next
+                }
+            },
         }
-    }
+        player.addListener(playerListener)
 
-    const resetMusic = () => {
-        if (player) {
-            player.requestStop()
+        setPlayer(player)
+        return () => {
+            console.log('--- [app] shutdown ---')
+            player.removeListener(playerListener)
+            player.dispose()
         }
-    }
+    }, [mediaElement])
 
     return (
-        <div className="App">
-            <TextAliveController
-                artist={artist}
-                songName={songName}
-                onTimerReady={stateOnTimerReady}
-                playOrPause={playOrPause}
-                playMusic={playMusic}
-                resetMusic={resetMusic}
-            />
+        <>
+            {player && app && (
+                <>
+                    <TextAliveController
+                        disabled={app.managed}
+                        player={player}
+                        songName={songName}
+                        artistName={artistName}
+                    />
+                </>
+            )}
             <Mouse />
-
-            <div id="media"></div>
-        </div>
+            <div>{char}</div>
+            {media}
+        </>
     )
 }
 
