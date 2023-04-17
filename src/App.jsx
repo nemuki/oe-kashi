@@ -13,7 +13,7 @@ function App() {
     const [song, setSong] = useState(contestSongs[1])
     const [artistName, setArtistName] = useState('')
     const [songName, setSongName] = useState('')
-    const [lyrics, setLyrics] = useState([''])
+    const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
 
     const media = useMemo(() => <div className="media" ref={setMediaElement} />, [])
 
@@ -63,7 +63,9 @@ function App() {
                 while (charLyrics && charLyrics.next) {
                     charLyrics.animate = (now, u) => {
                         if (u.startTime <= now && u.endTime > now) {
-                            setLyrics((lyrics) => [...lyrics, u.text])
+                            onmousemove = (event) => {
+                                setLyrics((lyrics) => [...lyrics, { x: event.x, y: event.y, char: u.text }])
+                            }
                         }
                     }
                     charLyrics = charLyrics.next
@@ -93,7 +95,13 @@ function App() {
                 </>
             )}
             <Mouse />
-            <div>{lyrics}</div>
+            <div>
+                {lyrics.map((lyric, index) => (
+                    <div key={index} style={{ position: 'absolute', left: lyric.x, top: lyric.y }}>
+                        {lyric.char}
+                    </div>
+                ))}
+            </div>
             {media}
         </>
     )
