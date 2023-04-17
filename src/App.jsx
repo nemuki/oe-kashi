@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { Player } from 'textalive-app-api'
-import TextAliveHeader from './components/header.jsx'
+import TextAliveController from './components/TextAliveController.jsx'
 import Mouse from './components/Mouse.jsx'
 
 // TextAlive Player
@@ -87,7 +87,7 @@ function App() {
 
     return (
         <div className="App">
-            <TextAliveHeader
+            <TextAliveController
                 artist={artist}
                 songName={songName}
                 onTimerReady={stateOnTimerReady}

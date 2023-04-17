@@ -1,4 +1,4 @@
-function TextAliveHeader(props) {
+function TextAliveController(props) {
     return (
         <div id="header">
             <div id="control" className="far">
@@ -27,4 +27,4 @@ function TextAliveHeader(props) {
     )
 }
 
-export default TextAliveHeader
+export default TextAliveController
