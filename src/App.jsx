@@ -37,13 +37,6 @@ function App() {
     const [songName, setSongName] = useState('')
     const [playOrPause, setPlayOrPause] = useState('再生')
     const [stateOnTimerReady, setStateOnTimerReady] = useState(false)
-    const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 })
-
-    useEffect(() => {
-        onmousemove = (event) => {
-            setMouseCoordinates({ x: event.clientX, y: event.clientY })
-        }
-    }, [mouseCoordinates])
 
     useEffect(() => {
         player.addListener({
@@ -102,9 +95,8 @@ function App() {
                 playMusic={playMusic}
                 resetMusic={resetMusic}
             />
-            <p>
-                x: {mouseCoordinates.x}, y:{mouseCoordinates.y}
-            </p>
+            <Mouse />
+
             <div id="media"></div>
         </div>
     )
