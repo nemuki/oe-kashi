@@ -63,7 +63,7 @@ function App() {
                 while (charLyrics && charLyrics.next) {
                     charLyrics.animate = (now, u) => {
                         if (u.startTime <= now && u.endTime > now) {
-                            onmousemove = (event) => {
+                            onpointermove = (event) => {
                                 setLyrics((lyrics) => [...lyrics, { x: event.x, y: event.y, char: u.text }])
                             }
                         }
