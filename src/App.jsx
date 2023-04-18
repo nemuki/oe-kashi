@@ -91,6 +91,7 @@ function App() {
                         player={player}
                         songName={songName}
                         artistName={artistName}
+                        setLyrics={setLyrics}
                     />
                 </>
             )}

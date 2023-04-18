@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-function TextAliveController({ disabled, player, artistName, songName }) {
+function TextAliveController({ disabled, player, artistName, songName, setLyrics }) {
     const [status, setStatus] = useState('stop')
 
     useEffect(() => {
@@ -20,7 +20,10 @@ function TextAliveController({ disabled, player, artistName, songName }) {
 
     const handlePlay = useCallback(() => player && player.requestPlay(), [player])
     const handlePause = useCallback(() => player && player.requestPause(), [player])
-    const handleStop = useCallback(() => player && player.requestStop(), [player])
+    const handleStop = useCallback(() => {
+        player && player.requestStop()
+        setLyrics([{ x: 0, y: 0, char: '' }])
+    }, [player])
 
     return (
         <div id="header">
