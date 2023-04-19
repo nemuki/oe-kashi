@@ -36,7 +36,6 @@ function TextAliveController({ disabled, player, artistName, songName, setLyrics
                 >
                     {status !== 'play' ? '再生' : '一時停止'}
                 </button>
-
                 <button type={'button'} onClick={handleStop} id="stop" disabled={disabled || status === 'stop'}>
                     リセット
                 </button>

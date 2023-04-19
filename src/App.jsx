@@ -59,16 +59,18 @@ function App() {
                 setSongName(player.data.song.name)
                 setArtistName(player.data.song.artist.name)
 
-                let charLyrics = player.video.firstChar
-                while (charLyrics && charLyrics.next) {
-                    charLyrics.animate = (now, u) => {
-                        if (u.startTime <= now && u.endTime > now) {
-                            onpointermove = (event) => {
-                                setLyrics((lyrics) => [...lyrics, { x: event.x, y: event.y, char: u.text }])
+                let oldPhrase = ''
+                let charLyric = player.video.firstChar
+                while (charLyric && charLyric.next) {
+                    charLyric.animate = (now, unit) => {
+                        if (unit.startTime <= now && unit.endTime > now) {
+                            if (unit.text !== oldPhrase) {
+                                setLyrics((lyrics) => [...lyrics, { x: 0, y: 0, char: unit.text }])
                             }
+                            oldPhrase = unit.text
                         }
                     }
-                    charLyrics = charLyrics.next
+                    charLyric = charLyric.next
                 }
             },
         }
@@ -97,11 +99,12 @@ function App() {
             )}
             <Mouse />
             <div>
-                {lyrics.map((lyric, index) => (
-                    <div key={index} style={{ position: 'absolute', left: lyric.x, top: lyric.y, zIndex: -1 }}>
-                        {lyric.char}
-                    </div>
-                ))}
+                {lyrics.map(
+                    (lyric, index) =>
+                        // <div key={index} style={{ position: 'absolute', left: lyric.x, top: lyric.y, zIndex: -1 }}>
+                        lyric.char,
+                    // </div>
+                )}
             </div>
             {media}
         </>
