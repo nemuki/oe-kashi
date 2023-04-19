@@ -10,10 +10,12 @@ function App() {
     const [player, setPlayer] = useState(null)
     const [mediaElement, setMediaElement] = useState(null)
 
-    const [song, setSong] = useState(contestSongs[1])
     const [artistName, setArtistName] = useState('')
     const [songName, setSongName] = useState('')
+    const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true)
     const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
+
+    const [song, setSong] = useState(contestSongs[1])
 
     const media = useMemo(() => <div className="media" ref={setMediaElement} />, [])
 
@@ -46,6 +48,10 @@ function App() {
                     })
                 }
                 setApp(app)
+            },
+            /* 再生コントロールができるようになったら呼ばれる */
+            onTimerReady: () => {
+                setIsPlayButtonDisabled(false)
             },
             /* 楽曲情報が取れたら呼ばれる */
             onVideoReady: () => {
@@ -89,6 +95,7 @@ function App() {
             {player && app && (
                 <>
                     <TextAliveController
+                        playButton={isPlayButtonDisabled}
                         disabled={app.managed}
                         player={player}
                         songName={songName}

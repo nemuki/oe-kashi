@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-function TextAliveController({ disabled, player, artistName, songName, setLyrics }) {
+function TextAliveController({ playButton, disabled, player, artistName, songName, setLyrics }) {
     const [status, setStatus] = useState('stop')
 
     useEffect(() => {
@@ -32,7 +32,7 @@ function TextAliveController({ disabled, player, artistName, songName, setLyrics
                     type={'button'}
                     onClick={status !== 'play' ? handlePlay : handlePause}
                     id="play"
-                    disabled={disabled}
+                    disabled={playButton}
                 >
                     {status !== 'play' ? '再生' : '一時停止'}
                 </button>
