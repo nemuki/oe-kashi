@@ -26,7 +26,7 @@ function TextAliveController({ disabled, player, artistName, songName, setLyrics
     }, [player])
 
     return (
-        <div id="header">
+        <div id="header" style={{ zIndex: 0 }}>
             <div id="control" className="far">
                 <button
                     type={'button'}
