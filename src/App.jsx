@@ -109,7 +109,11 @@ function App() {
             <Mouse />
             <div>
                 {lyrics.map((lyric, index) => (
-                    <div key={index} style={{ position: 'absolute', left: lyric.x, top: lyric.y, zIndex: -1 }}>
+                    <div
+                        key={index}
+                        className={'ripples'}
+                        style={{ position: 'absolute', left: lyric.x, top: lyric.y, zIndex: -1 }}
+                    >
                         {lyric.char}
                     </div>
                 ))}
