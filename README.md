@@ -1,4 +1,4 @@
-# negi - oe-kashi
+# oe-kashi
 
 おえかし お絵歌詞 お絵描詞
 
