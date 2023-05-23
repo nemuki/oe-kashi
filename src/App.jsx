@@ -17,7 +17,10 @@ function App() {
 
     const [song, setSong] = useState(contestSongs[1])
 
-    const media = useMemo(() => <div className="media" ref={setMediaElement} />, [])
+    const media = useMemo(
+        () => <div className="media" ref={setMediaElement} />,
+        [],
+    )
 
     useEffect(() => {
         if (typeof window === 'undefined' || !mediaElement) {
@@ -41,8 +44,6 @@ function App() {
                 console.log('host:', app.host)
                 console.log('song url:', app.songUrl)
                 if (!app.songUrl) {
-                    // https://developer.textalive.jp/events/magicalmirai2023/
-                    // king妃jack躍 / 宮守文学 feat. 初音ミク
                     player.createFromSongUrl(song.url, {
                         video: song.video,
                     })
@@ -59,7 +60,10 @@ function App() {
                 console.log('player:', player)
                 console.log('player.data.song:', player.data.song)
                 console.log('player.data.song.name:', player.data.song.name)
-                console.log('player.data.song.artist.name:', player.data.song.artist.name)
+                console.log(
+                    'player.data.song.artist.name:',
+                    player.data.song.artist.name,
+                )
                 console.log('player.data.songMap:', player.data.songMap)
 
                 setSongName(player.data.song.name)
@@ -72,7 +76,14 @@ function App() {
                         if (unit.startTime <= now && unit.endTime > now) {
                             onpointermove = (event) => {
                                 if (unit.text !== oldPhrase) {
-                                    setLyrics((lyrics) => [...lyrics, { x: event.x, y: event.y, char: unit.text }])
+                                    setLyrics((lyrics) => [
+                                        ...lyrics,
+                                        {
+                                            x: event.x,
+                                            y: event.y,
+                                            char: unit.text,
+                                        },
+                                    ])
                                 }
                                 oldPhrase = unit.text
                             }
@@ -112,7 +123,12 @@ function App() {
                     <div
                         key={index}
                         className={'ripples'}
-                        style={{ position: 'absolute', left: lyric.x, top: lyric.y, zIndex: -1 }}
+                        style={{
+                            position: 'absolute',
+                            left: lyric.x,
+                            top: lyric.y,
+                            zIndex: -1,
+                        }}
                     >
                         {lyric.char}
                     </div>
