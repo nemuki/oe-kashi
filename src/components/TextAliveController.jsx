@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useState } from 'react'
 
-function TextAliveController({ playButton, disabled, player, artistName, songName, setLyrics }) {
+function TextAliveController({
+    playButton,
+    disabled,
+    player,
+    artistName,
+    songName,
+    setLyrics,
+}) {
     const [status, setStatus] = useState('stop')
 
     useEffect(() => {
@@ -18,8 +25,14 @@ function TextAliveController({ playButton, disabled, player, artistName, songNam
         return () => player.removeListener(listener)
     }, [player])
 
-    const handlePlay = useCallback(() => player && player.requestPlay(), [player])
-    const handlePause = useCallback(() => player && player.requestPause(), [player])
+    const handlePlay = useCallback(
+        () => player && player.requestPlay(),
+        [player],
+    )
+    const handlePause = useCallback(
+        () => player && player.requestPause(),
+        [player],
+    )
     const handleStop = useCallback(() => {
         player && player.requestStop()
         setLyrics([{ x: 0, y: 0, char: '' }])
@@ -36,7 +49,12 @@ function TextAliveController({ playButton, disabled, player, artistName, songNam
                 >
                     {status !== 'play' ? '再生' : '一時停止'}
                 </button>
-                <button type={'button'} onClick={handleStop} id="stop" disabled={disabled || status === 'stop'}>
+                <button
+                    type={'button'}
+                    onClick={handleStop}
+                    id="stop"
+                    disabled={disabled || status === 'stop'}
+                >
                     リセット
                 </button>
             </div>
