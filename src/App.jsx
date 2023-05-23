@@ -74,16 +74,20 @@ function App() {
                 while (charLyric && charLyric.next) {
                     charLyric.animate = (now, unit) => {
                         if (unit.startTime <= now && unit.endTime > now) {
-                            onpointermove = (event) => {
+                            ontouchmove = (event) => {
+                                event.preventDefault()
+                                const touch = event.changedTouches
                                 if (unit.text !== oldPhrase) {
-                                    setLyrics((lyrics) => [
-                                        ...lyrics,
-                                        {
-                                            x: event.x,
-                                            y: event.y,
-                                            char: unit.text,
-                                        },
-                                    ])
+                                    for (let i = 0; i < touch.length; i++) {
+                                        setLyrics((lyrics) => [
+                                            ...lyrics,
+                                            {
+                                                x: touch[i].pageX,
+                                                y: touch[i].pageY,
+                                                char: unit.text,
+                                            },
+                                        ])
+                                    }
                                 }
                                 oldPhrase = unit.text
                             }
