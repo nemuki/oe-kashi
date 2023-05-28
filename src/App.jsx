@@ -6,137 +6,137 @@ import Mouse from './components/Mouse.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
 
 function App() {
-    const [app, setApp] = useState(null)
-    const [player, setPlayer] = useState(null)
-    const [mediaElement, setMediaElement] = useState(null)
+  const [app, setApp] = useState(null)
+  const [player, setPlayer] = useState(null)
+  const [mediaElement, setMediaElement] = useState(null)
 
-    const [artistName, setArtistName] = useState('')
-    const [songName, setSongName] = useState('')
-    const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true)
-    const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
+  const [artistName, setArtistName] = useState('')
+  const [songName, setSongName] = useState('')
+  const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true)
+  const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
 
-    const [song, setSong] = useState(contestSongs[1])
+  const [song, setSong] = useState(contestSongs[1])
 
-    const media = useMemo(
-        () => <div className="media" ref={setMediaElement} />,
-        [],
-    )
+  const media = useMemo(
+    () => <div className="media" ref={setMediaElement} />,
+    [],
+  )
 
-    useEffect(() => {
-        if (typeof window === 'undefined' || !mediaElement) {
-            return
+  useEffect(() => {
+    if (typeof window === 'undefined' || !mediaElement) {
+      return
+    }
+
+    console.log('--- [app] create Player instance ---')
+    const player = new Player({
+      // オプション一覧
+      // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
+      app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_API_TOKEN },
+      mediaElement: mediaElement,
+      mediaBannerPosition: 'bottom right',
+    })
+
+    const playerListener = {
+      /* APIの準備ができたら呼ばれる */
+      onAppReady: (app) => {
+        console.log('--- [app] initialized as TextAlive app ---')
+        console.log('managed:', app.managed)
+        console.log('host:', app.host)
+        console.log('song url:', app.songUrl)
+        if (!app.songUrl) {
+          player.createFromSongUrl(song.url, {
+            video: song.video,
+          })
         }
+        setApp(app)
+      },
+      /* 再生コントロールができるようになったら呼ばれる */
+      onTimerReady: () => {
+        setIsPlayButtonDisabled(false)
+      },
+      /* 楽曲情報が取れたら呼ばれる */
+      onVideoReady: () => {
+        console.log('--- [app] video is ready ---')
+        console.log('player:', player)
+        console.log('player.data.song:', player.data.song)
+        console.log('player.data.song.name:', player.data.song.name)
+        console.log(
+          'player.data.song.artist.name:',
+          player.data.song.artist.name,
+        )
+        console.log('player.data.songMap:', player.data.songMap)
 
-        console.log('--- [app] create Player instance ---')
-        const player = new Player({
-            // オプション一覧
-            // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
-            app: { token: import.meta.env.VITE_TEXT_ALIVE_APP_API_TOKEN },
-            mediaElement: mediaElement,
-            mediaBannerPosition: 'bottom right',
-        })
+        setSongName(player.data.song.name)
+        setArtistName(player.data.song.artist.name)
 
-        const playerListener = {
-            /* APIの準備ができたら呼ばれる */
-            onAppReady: (app) => {
-                console.log('--- [app] initialized as TextAlive app ---')
-                console.log('managed:', app.managed)
-                console.log('host:', app.host)
-                console.log('song url:', app.songUrl)
-                if (!app.songUrl) {
-                    player.createFromSongUrl(song.url, {
-                        video: song.video,
-                    })
+        let oldPhrase = ''
+        let charLyric = player.video.firstChar
+        while (charLyric && charLyric.next) {
+          charLyric.animate = (now, unit) => {
+            if (unit.startTime <= now && unit.endTime > now) {
+              onpointermove = (event) => {
+                if (unit.text !== oldPhrase) {
+                  setLyrics((lyrics) => [
+                    ...lyrics,
+                    {
+                      x: event.x,
+                      y: event.y,
+                      char: unit.text,
+                    },
+                  ])
                 }
-                setApp(app)
-            },
-            /* 再生コントロールができるようになったら呼ばれる */
-            onTimerReady: () => {
-                setIsPlayButtonDisabled(false)
-            },
-            /* 楽曲情報が取れたら呼ばれる */
-            onVideoReady: () => {
-                console.log('--- [app] video is ready ---')
-                console.log('player:', player)
-                console.log('player.data.song:', player.data.song)
-                console.log('player.data.song.name:', player.data.song.name)
-                console.log(
-                    'player.data.song.artist.name:',
-                    player.data.song.artist.name,
-                )
-                console.log('player.data.songMap:', player.data.songMap)
-
-                setSongName(player.data.song.name)
-                setArtistName(player.data.song.artist.name)
-
-                let oldPhrase = ''
-                let charLyric = player.video.firstChar
-                while (charLyric && charLyric.next) {
-                    charLyric.animate = (now, unit) => {
-                        if (unit.startTime <= now && unit.endTime > now) {
-                            onpointermove = (event) => {
-                                if (unit.text !== oldPhrase) {
-                                    setLyrics((lyrics) => [
-                                        ...lyrics,
-                                        {
-                                            x: event.x,
-                                            y: event.y,
-                                            char: unit.text,
-                                        },
-                                    ])
-                                }
-                                oldPhrase = unit.text
-                            }
-                        }
-                    }
-                    charLyric = charLyric.next
-                }
-            },
+                oldPhrase = unit.text
+              }
+            }
+          }
+          charLyric = charLyric.next
         }
-        player.addListener(playerListener)
+      },
+    }
+    player.addListener(playerListener)
 
-        setPlayer(player)
-        return () => {
-            console.log('--- [app] shutdown ---')
-            player.removeListener(playerListener)
-            player.dispose()
-        }
-    }, [mediaElement])
+    setPlayer(player)
+    return () => {
+      console.log('--- [app] shutdown ---')
+      player.removeListener(playerListener)
+      player.dispose()
+    }
+  }, [mediaElement])
 
-    return (
+  return (
+    <>
+      {player && app && (
         <>
-            {player && app && (
-                <>
-                    <TextAliveController
-                        playButton={isPlayButtonDisabled}
-                        disabled={app.managed}
-                        player={player}
-                        songName={songName}
-                        artistName={artistName}
-                        setLyrics={setLyrics}
-                    />
-                </>
-            )}
-            <Mouse />
-            <div>
-                {lyrics.map((lyric, index) => (
-                    <div
-                        key={index}
-                        className={'ripples'}
-                        style={{
-                            position: 'absolute',
-                            left: lyric.x,
-                            top: lyric.y,
-                            zIndex: -1,
-                        }}
-                    >
-                        {lyric.char}
-                    </div>
-                ))}
-            </div>
-            {media}
+          <TextAliveController
+            playButton={isPlayButtonDisabled}
+            disabled={app.managed}
+            player={player}
+            songName={songName}
+            artistName={artistName}
+            setLyrics={setLyrics}
+          />
         </>
-    )
+      )}
+      <Mouse />
+      <div>
+        {lyrics.map((lyric, index) => (
+          <div
+            key={index}
+            className={'ripples'}
+            style={{
+              position: 'absolute',
+              left: lyric.x,
+              top: lyric.y,
+              zIndex: -1,
+            }}
+          >
+            {lyric.char}
+          </div>
+        ))}
+      </div>
+      {media}
+    </>
+  )
 }
 
 export default App
