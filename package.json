@@ -1,38 +1,38 @@
 {
-    "name": "negi",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "volta": {
-        "node": "18.16.0"
-    },
-    "packageManager": "pnpm@8.5.1",
-    "scripts": {
-        "dev": "vite --host",
-        "build": "vite build",
-        "preview": "vite preview",
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix .",
-        "format": "prettier --check .",
-        "format:fix": "prettier --write .",
-        "pages:deploy": "wrangler pages publish dist"
-    },
-    "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "textalive-app-api": "^0.3.2",
-        "the-new-css-reset": "^1.8.4"
-    },
-    "devDependencies": {
-        "@eslint/js": "^8.38.0",
-        "@types/react": "^18.0.28",
-        "@types/react-dom": "^18.0.11",
-        "@vitejs/plugin-react": "^4.0.0",
-        "eslint": "^8.38.0",
-        "eslint-config-prettier": "^8.8.0",
-        "eslint-plugin-react": "^7.32.2",
-        "prettier": "^2.8.7",
-        "vite": "^4.2.0",
-        "wrangler": "^3.0.0"
-    }
+  "name": "negi",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "volta": {
+    "node": "18.16.0"
+  },
+  "packageManager": "pnpm@8.5.1",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "pages:deploy": "wrangler pages publish dist"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "textalive-app-api": "^0.3.2",
+    "the-new-css-reset": "^1.8.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.38.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.7",
+    "vite": "^4.2.0",
+    "wrangler": "^3.0.0"
+  }
 }

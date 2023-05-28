@@ -1,134 +1,134 @@
 name: CI / CD
 
 on:
-    pull_request:
-    push:
-        branches:
-            - main
+  pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
-    contents: read
-    deployments: write
-    pull-requests: write
-    statuses: write
+  contents: read
+  deployments: write
+  pull-requests: write
+  statuses: write
 
 jobs:
-    ESLint:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  ESLint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Prepare
-              uses: ./.github/actions/prepare
+      - name: Prepare
+        uses: ./.github/actions/prepare
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Run ESLint
-              run: pnpm lint
+      - name: Run ESLint
+        run: pnpm lint
 
-    Prettier:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  Prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Prepare
-              uses: ./.github/actions/prepare
+      - name: Prepare
+        uses: ./.github/actions/prepare
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Run Prettier
-              run: pnpm format
+      - name: Run Prettier
+        run: pnpm format
 
-    Preview:
-        if: github.event_name == 'pull_request'
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+  Preview:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Prepare
-              uses: ./.github/actions/prepare
+      - name: Prepare
+        uses: ./.github/actions/prepare
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Create .env
-              run: |
-                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
+      - name: Create .env
+        run: |
+          echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
 
-            - name: Run Build
-              run: pnpm build
+      - name: Run Build
+        run: pnpm build
 
-            - name: Deploy Cloudflare Pages
-              id: cloudflare
-              uses: cloudflare/pages-action@v1
-              with:
-                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  projectName: oe-kashi
-                  directory: dist
-                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy Cloudflare Pages
+        id: cloudflare
+        uses: cloudflare/pages-action@v1
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          projectName: oe-kashi
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Add comment
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                  echo '### <span aria-hidden="true">✅</span> Deploy Preview ready!' > temp
-                  echo '' >> temp
-                  echo '| Name | Link |' >> temp
-                  echo '|------|------|' >> temp
-                  echo "|<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |" >> temp
-                  echo "|<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |" >> temp
-                  echo "|<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |" >> temp
-                  echo "|<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |" >> temp
+      - name: Add comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo '### <span aria-hidden="true">✅</span> Deploy Preview ready!' > temp
+          echo '' >> temp
+          echo '| Name | Link |' >> temp
+          echo '|------|------|' >> temp
+          echo "|<span aria-hidden="true">🔨</span> Latest commit | ${{ github.sha }} |" >> temp
+          echo "|<span aria-hidden="true">🔍</span> Latest deploy log | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |" >> temp
+          echo "|<span aria-hidden="true">😎</span> Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }}) |" >> temp
+          echo "|<span aria-hidden="true">🌳</span> Environment | ${{ steps.cloudflare.outputs.environment }} |" >> temp
+          
+          gh pr comment "$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')" -b "$(cat temp)"
 
-                  gh pr comment "$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')" -b "$(cat temp)"
+  Production:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    Production:
-        if: github.event_name == 'push'
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+      - name: Prepare
+        uses: ./.github/actions/prepare
 
-            - name: Prepare
-              uses: ./.github/actions/prepare
+      - name: Install dependencies
+        run: pnpm install
 
-            - name: Install dependencies
-              run: pnpm install
+      - name: Create .env
+        run: |
+          echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
 
-            - name: Create .env
-              run: |
-                  echo "VITE_TEXT_ALIVE_APP_API_TOKEN=${{ secrets.TEXT_ALIVE_APP_API_TOKEN }}" > .env
+      - name: Run Build
+        run: pnpm build
 
-            - name: Run Build
-              run: pnpm build
+      - name: Deploy Cloudflare Pages
+        id: cloudflare
+        uses: cloudflare/pages-action@v1
+        with:
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          projectName: oe-kashi
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Deploy Cloudflare Pages
-              id: cloudflare
-              uses: cloudflare/pages-action@v1
-              with:
-                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                  projectName: oe-kashi
-                  directory: dist
-                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Add publish URL as commit status
-              uses: actions/github-script@v6
-              with:
-                  script: |
-                      const sha = context.payload.pull_request?.head.sha ?? context.sha;
-                      await github.rest.repos.createCommitStatus({
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        context: 'Cloudflare Pages',
-                        description: 'Cloudflare Pages deployment',
-                        state: 'success',
-                        sha,
-                        target_url: "${{ steps.cloudflare.outputs.url }}",
-                      });
+      - name: Add publish URL as commit status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const sha = context.payload.pull_request?.head.sha ?? context.sha;
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              context: 'Cloudflare Pages',
+              description: 'Cloudflare Pages deployment',
+              state: 'success',
+              sha,
+              target_url: "${{ steps.cloudflare.outputs.url }}",
+            });
