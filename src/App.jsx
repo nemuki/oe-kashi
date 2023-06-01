@@ -27,7 +27,6 @@ function App() {
       return
     }
 
-    console.log('--- [app] create Player instance ---')
     const player = new Player({
       // オプション一覧
       // https://developer.textalive.jp/packages/textalive-app-api/interfaces/playeroptions.html
@@ -39,10 +38,6 @@ function App() {
     const playerListener = {
       /* APIの準備ができたら呼ばれる */
       onAppReady: (app) => {
-        console.log('--- [app] initialized as TextAlive app ---')
-        console.log('managed:', app.managed)
-        console.log('host:', app.host)
-        console.log('song url:', app.songUrl)
         if (!app.songUrl) {
           player.createFromSongUrl(song.url, {
             video: song.video,
@@ -56,16 +51,6 @@ function App() {
       },
       /* 楽曲情報が取れたら呼ばれる */
       onVideoReady: () => {
-        console.log('--- [app] video is ready ---')
-        console.log('player:', player)
-        console.log('player.data.song:', player.data.song)
-        console.log('player.data.song.name:', player.data.song.name)
-        console.log(
-          'player.data.song.artist.name:',
-          player.data.song.artist.name,
-        )
-        console.log('player.data.songMap:', player.data.songMap)
-
         setSongName(player.data.song.name)
         setArtistName(player.data.song.artist.name)
 
@@ -97,7 +82,6 @@ function App() {
 
     setPlayer(player)
     return () => {
-      console.log('--- [app] shutdown ---')
       player.removeListener(playerListener)
       player.dispose()
     }
