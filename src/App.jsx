@@ -62,18 +62,21 @@ function App() {
             if (unit.startTime <= now && unit.endTime > now) {
               if (isMobile) {
                 ontouchmove = (event) => {
-                  event.preventDefault()
-                  const touch = event.changedTouches
-                  for (let i = 0; i < touch.length; i++) {
-                    setLyrics((lyrics) => [
-                      ...lyrics,
-                      {
-                        x: touch[i].pageX,
-                        y: touch[i].pageY,
-                        char: unit.text,
-                      },
-                    ])
+                  if (unit.text !== oldPhrase) {
+                    event.preventDefault()
+                    const touch = event.changedTouches
+                    for (let i = 0; i < touch.length; i++) {
+                      setLyrics((lyrics) => [
+                        ...lyrics,
+                        {
+                          x: touch[i].pageX,
+                          y: touch[i].pageY,
+                          char: unit.text,
+                        },
+                      ])
+                    }
                   }
+                  oldPhrase = unit.text
                 }
               } else {
                 onpointermove = (event) => {
