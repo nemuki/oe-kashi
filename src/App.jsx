@@ -4,6 +4,7 @@ import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
 import Mouse from './components/Mouse.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
+import { isMobile } from 'react-device-detect'
 
 function App() {
   const [app, setApp] = useState(null)
@@ -59,18 +60,35 @@ function App() {
         while (charLyric && charLyric.next) {
           charLyric.animate = (now, unit) => {
             if (unit.startTime <= now && unit.endTime > now) {
-              onpointermove = (event) => {
-                if (unit.text !== oldPhrase) {
-                  setLyrics((lyrics) => [
-                    ...lyrics,
-                    {
-                      x: event.x,
-                      y: event.y,
-                      char: unit.text,
-                    },
-                  ])
+              if (isMobile) {
+                ontouchmove = (event) => {
+                  event.preventDefault()
+                  const touch = event.changedTouches
+                  for (let i = 0; i < touch.length; i++) {
+                    setLyrics((lyrics) => [
+                      ...lyrics,
+                      {
+                        x: touch[i].pageX,
+                        y: touch[i].pageY,
+                        char: unit.text,
+                      },
+                    ])
+                  }
                 }
-                oldPhrase = unit.text
+              } else {
+                onpointermove = (event) => {
+                  if (unit.text !== oldPhrase) {
+                    setLyrics((lyrics) => [
+                      ...lyrics,
+                      {
+                        x: event.x,
+                        y: event.y,
+                        char: unit.text,
+                      },
+                    ])
+                  }
+                  oldPhrase = unit.text
+                }
               }
             }
           }
