@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import './styles/App.css'
 import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
-import Mouse from './components/Mouse.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
 import { isMobile } from 'react-device-detect'
 
@@ -22,6 +21,19 @@ function App() {
     () => <div className="media" ref={setMediaElement} />,
     [],
   )
+
+  const mouseCoordinates = { x: 0, y: 0 }
+
+  //マウスストーカー用のdivを取得
+  const stalker = document.getElementById('stalker')
+  const coordinates = document.getElementById('coordinates')
+
+  //上記のdivタグをマウスに追従させる処理
+  document.addEventListener('mousemove', function (e) {
+    stalker.style.transform =
+      'translate(' + e.clientX + 'px, ' + e.clientY + 'px)'
+    coordinates.innerText = `x: ${e.clientX}, y: ${e.clientY}`
+  })
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mediaElement) {
@@ -122,7 +134,6 @@ function App() {
           />
         </>
       )}
-      <Mouse />
       <div>
         {lyrics.map((lyric, index) => (
           <div
@@ -139,6 +150,8 @@ function App() {
           </div>
         ))}
       </div>
+      <p id="coordinates">zx</p>
+      <div id="stalker"></div>
       {media}
     </>
   )
