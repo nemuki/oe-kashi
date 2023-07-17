@@ -15,8 +15,6 @@ function App() {
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true)
   const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
 
-  const [song, setSong] = useState(contestSongs[1])
-
   const media = useMemo(
     () => <div className="media" ref={setMediaElement} />,
     [],
@@ -66,8 +64,8 @@ function App() {
       /* APIの準備ができたら呼ばれる */
       onAppReady: (app) => {
         if (!app.songUrl) {
-          player.createFromSongUrl(song.url, {
-            video: song.video,
+          player.createFromSongUrl(contestSongs[1].url, {
+            video: contestSongs[1].video,
           })
         }
         setApp(app)
@@ -121,7 +119,6 @@ function App() {
           player={player}
           songName={songName}
           songList={contestSongs}
-          setSong={setSong}
           artistName={artistName}
           setLyrics={setLyrics}
         />

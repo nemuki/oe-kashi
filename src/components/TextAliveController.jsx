@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack, Select, Text, VStack } from '@chakra-ui/react'
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react'
+import { contestSongs } from '../ContestSongsConstraint.js'
 
 function TextAliveController(props) {
   const [status, setStatus] = useState('stop')
@@ -32,6 +33,12 @@ function TextAliveController(props) {
     props.player && props.player.requestStop()
     props.setLyrics([{ x: 0, y: 0, char: '' }])
   }, [props.player])
+  const onChangeSongUrl = useCallback(
+    (url) => {
+      props.player && url && props.player.createFromSongUrl(url)
+    },
+    [props.player],
+  )
 
   return (
     <VStack align={'fit'} style={{ zIndex: 0 }}>
@@ -61,6 +68,19 @@ function TextAliveController(props) {
         >
           リセット
         </Button>
+        <Select
+          placeholder="楽曲を選択"
+          size={'sm'}
+          onChange={(event) => {
+            if (event.target.value !== '') {
+              onChangeSongUrl(contestSongs[event.target.value].url)
+            }
+          }}
+        >
+          {contestSongs.map((song, index) => (
+            <option value={index}>{song.name}</option>
+          ))}
+        </Select>
       </HStack>
       <Box>
         <Text id="artist">artist: {props.artistName}</Text>
