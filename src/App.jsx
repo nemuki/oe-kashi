@@ -115,16 +115,14 @@ function App() {
   return (
     <>
       {player && app && (
-        <>
-          <TextAliveController
-            playButton={isPlayButtonDisabled}
-            disabled={app.managed}
-            player={player}
-            songName={songName}
-            artistName={artistName}
-            setLyrics={setLyrics}
-          />
-        </>
+        <TextAliveController
+          playButton={isPlayButtonDisabled}
+          disabled={app.managed}
+          player={player}
+          songName={songName}
+          artistName={artistName}
+          setLyrics={setLyrics}
+        />
       )}
       <div>
         {lyrics.map((lyric, index) => (
