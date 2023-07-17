@@ -3,6 +3,7 @@ import './styles/App.css'
 import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
+import { isMobile } from 'react-device-detect'
 
 function App() {
   const [app, setApp] = useState(null)
@@ -26,12 +27,27 @@ function App() {
   const stalker = document.getElementById('stalker')
   const coordinates = document.getElementById('coordinates')
 
-  document.addEventListener('mousemove', function (e) {
-    stalker.style.transform =
-      'translate(' + e.clientX + 'px, ' + e.clientY + 'px)'
-    coordinates.innerText = `x: ${e.clientX}, y: ${e.clientY}`
-    mouseCoordinates = { x: e.clientX, y: e.clientY }
-  })
+  if (isMobile) {
+    document.addEventListener('touchmove', function (event) {
+      event.preventDefault()
+      const touch = event.changedTouches
+
+      for (let i = 0; i < touch.length; i++) {
+        const x = touch[i].pageX
+        const y = touch[i].pageY
+
+        stalker.style.transform = `translate(${x}px, ${y}px)`
+        coordinates.innerText = `x: ${x}, y: ${y}`
+        mouseCoordinates = { x: x, y: y }
+      }
+    })
+  } else {
+    document.addEventListener('mousemove', function (event) {
+      stalker.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
+      coordinates.innerText = `x: ${event.clientX}, y: ${event.clientY}`
+      mouseCoordinates = { x: event.clientX, y: event.clientY }
+    })
+  }
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mediaElement) {
