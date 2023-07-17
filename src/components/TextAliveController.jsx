@@ -2,14 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react'
 
-function TextAliveController({
-  playButton,
-  disabled,
-  player,
-  artistName,
-  songName,
-  setLyrics,
-}) {
+function TextAliveController(props) {
   const [status, setStatus] = useState('stop')
 
   useEffect(() => {
@@ -23,19 +16,22 @@ function TextAliveController({
       /* 再生コントロールができるようになったら呼ばれる */
       onStop: () => setStatus('stop'),
     }
-    player.addListener(listener)
-    return () => player.removeListener(listener)
-  }, [player])
+    props.player.addListener(listener)
+    return () => props.player.removeListener(listener)
+  }, [props.player])
 
-  const handlePlay = useCallback(() => player && player.requestPlay(), [player])
+  const handlePlay = useCallback(
+    () => props.player && props.player.requestPlay(),
+    [props.player],
+  )
   const handlePause = useCallback(
-    () => player && player.requestPause(),
-    [player],
+    () => props.player && props.player.requestPause(),
+    [props.player],
   )
   const handleStop = useCallback(() => {
-    player && player.requestStop()
-    setLyrics([{ x: 0, y: 0, char: '' }])
-  }, [player])
+    props.player && props.player.requestStop()
+    props.setLyrics([{ x: 0, y: 0, char: '' }])
+  }, [props.player])
 
   return (
     <VStack align={'fit'} style={{ zIndex: 0 }}>
@@ -45,7 +41,7 @@ function TextAliveController({
           size="sm"
           onClick={status !== 'play' ? handlePlay : handlePause}
           id="play"
-          isDisabled={playButton}
+          isDisabled={props.playButton}
           leftIcon={
             status !== 'play' ? (
               <IconPlayerPlay size={16} />
@@ -61,14 +57,14 @@ function TextAliveController({
           type={'button'}
           onClick={handleStop}
           id="stop"
-          isDisabled={disabled || status === 'stop'}
+          isDisabled={props.disabled || status === 'stop'}
         >
           リセット
         </Button>
       </HStack>
       <Box>
-        <Text id="artist">artist: {artistName}</Text>
-        <Text id="song">song: {songName}</Text>
+        <Text id="artist">artist: {props.artistName}</Text>
+        <Text id="song">song: {props.songName}</Text>
       </Box>
     </VStack>
   )
