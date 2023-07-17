@@ -34,8 +34,8 @@ function TextAliveController(props) {
     props.setLyrics([{ x: 0, y: 0, char: '' }])
   }, [props.player])
   const onChangeSongUrl = useCallback(
-    (url) => {
-      props.player && url && props.player.createFromSongUrl(url)
+    (url, video) => {
+      props.player && url && props.player.createFromSongUrl(url, video)
       props.setLyrics([{ x: 0, y: 0, char: '' }])
     },
     [props.player],
@@ -75,7 +75,10 @@ function TextAliveController(props) {
           w={'auto'}
           onChange={(event) => {
             if (event.target.value !== '') {
-              onChangeSongUrl(contestSongs[event.target.value].url)
+              onChangeSongUrl(
+                contestSongs[event.target.value].url,
+                contestSongs[event.target.value].video,
+              )
             }
           }}
         >
