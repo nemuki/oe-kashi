@@ -60,8 +60,8 @@ export const contestSongs = [
       chordId: 2405285,
       repetitiveSegmentId: 2475676,
       // 歌詞タイミング訂正履歴: https://textalive.jp/lyrics/piapro.jp%2Ft%2FWk83%2F20230203141007
-      lyricId: 56097,
-      lyricDiffId: 9640,
+      lyricId: 56812 /* 6月27日更新 */,
+      lyricDiffId: 10668 /* 6月27日更新 */,
     },
   },
   {
