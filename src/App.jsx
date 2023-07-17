@@ -33,8 +33,8 @@ function App() {
       const touch = event.changedTouches
 
       for (let i = 0; i < touch.length; i++) {
-        const x = touch[i].pageX
-        const y = touch[i].pageY
+        const x = Math.floor(touch[i].pageX)
+        const y = Math.floor(touch[i].pageY)
 
         stalker.style.transform = `translate(${x}px, ${y}px)`
         coordinates.innerText = `x: ${x}, y: ${y}`
