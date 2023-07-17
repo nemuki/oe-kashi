@@ -22,7 +22,7 @@ function App() {
     [],
   )
 
-  let mouseCoordinates = { x: 0, y: 0 }
+  let lyricCoordinate = { x: 0, y: 0 }
 
   if (isMobile) {
     document.addEventListener('touchmove', function (event) {
@@ -34,13 +34,13 @@ function App() {
         const y = Math.floor(touch[i].pageY)
 
         setMouseCoordinate({ x: x, y: y })
-        mouseCoordinates = { x: x, y: y }
+        lyricCoordinate = { x: x, y: y }
       }
     })
   } else {
     document.addEventListener('mousemove', function (event) {
       setMouseCoordinate({ x: event.clientX, y: event.clientY })
-      mouseCoordinates = { x: event.clientX, y: event.clientY }
+      lyricCoordinate = { x: event.clientX, y: event.clientY }
     })
   }
 
@@ -85,8 +85,8 @@ function App() {
                 setLyrics((lyrics) => [
                   ...lyrics,
                   {
-                    x: mouseCoordinates.x,
-                    y: mouseCoordinates.y,
+                    x: lyricCoordinate.x,
+                    y: lyricCoordinate.y,
                     char: unit.text,
                   },
                 ])
