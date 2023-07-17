@@ -4,8 +4,8 @@ import { isMobile } from 'react-device-detect'
 import { Player } from 'textalive-app-api'
 
 import { contestSongs } from './ContestSongsConstraint.js'
+import Lyric from './components/Lyric.jsx'
 import TextAliveController from './components/TextAliveController.jsx'
-
 import './styles/App.css'
 
 function App() {
@@ -127,22 +127,16 @@ function App() {
           songName={songName}
         />
       )}
-      <div>
+      <main>
         {lyrics.map((lyric, index) => (
-          <div
-            className="ripples"
+          <Lyric
+            char={lyric.char}
+            coordinateX={lyric.x}
+            coordinateY={lyric.y}
             key={index}
-            style={{
-              position: 'absolute',
-              left: lyric.x,
-              top: lyric.y,
-              zIndex: -1,
-            }}
-          >
-            {lyric.char}
-          </div>
+          />
         ))}
-      </div>
+      </main>
       <Text
         className="coordinates"
         p={2}
