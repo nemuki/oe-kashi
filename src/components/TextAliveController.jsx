@@ -41,7 +41,7 @@ function TextAliveController(props) {
   )
 
   return (
-    <VStack align={'fit'} style={{ zIndex: 0 }}>
+    <VStack align={'fit'} p={2} style={{ zIndex: 0 }}>
       <HStack>
         <Button
           colorScheme="teal"
@@ -71,6 +71,7 @@ function TextAliveController(props) {
         <Select
           placeholder="楽曲を選択"
           size={'sm'}
+          w={'auto'}
           onChange={(event) => {
             if (event.target.value !== '') {
               onChangeSongUrl(contestSongs[event.target.value].url)

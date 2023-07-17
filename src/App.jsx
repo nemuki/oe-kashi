@@ -4,6 +4,7 @@ import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
 import { isMobile } from 'react-device-detect'
+import { Text } from '@chakra-ui/react'
 
 function App() {
   const [app, setApp] = useState(null)
@@ -139,7 +140,7 @@ function App() {
           </div>
         ))}
       </div>
-      <p id="coordinates"></p>
+      <Text p={2} id="coordinates"></Text>
       <div id="stalker"></div>
       {media}
     </>
