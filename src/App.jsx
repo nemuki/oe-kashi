@@ -25,7 +25,7 @@ function App() {
   let lyricCoordinate = { x: 0, y: 0 }
 
   if (isMobile) {
-    document.addEventListener('touchmove', function (event) {
+    document.addEventListener('touchmove', (event) => {
       event.preventDefault()
       const touch = event.changedTouches
 
@@ -38,9 +38,12 @@ function App() {
       }
     })
   } else {
-    document.addEventListener('mousemove', function (event) {
-      setMouseCoordinate({ x: event.clientX, y: event.clientY })
-      lyricCoordinate = { x: event.clientX, y: event.clientY }
+    document.addEventListener('mousemove', (event) => {
+      const x = event.clientX
+      const y = event.clientY
+
+      setMouseCoordinate({ x: x, y: y })
+      lyricCoordinate = { x: x, y: y }
     })
   }
 
@@ -138,10 +141,10 @@ function App() {
       </div>
       <Text
         p={2}
-        id="coordinates"
+        className="coordinates"
       >{`${mouseCoordinate.x}px, ${mouseCoordinate.y}px`}</Text>
       <div
-        id="stalker"
+        className="stalker"
         style={{
           transform: `translate(${mouseCoordinate.x}px, ${mouseCoordinate.y}px)`,
         }}

@@ -34,7 +34,7 @@
   }
 }
 
-#stalker {
+.stalker {
   pointer-events: none;
   position: fixed;
   top: -8px; /* 座標調節（カーソル位置と円の中心を合わせる）*/
@@ -48,7 +48,7 @@
   z-index: 999;
 }
 
-#coordinates {
+.coordinates {
   position: absolute;
   bottom: 0;
   left: 0;
