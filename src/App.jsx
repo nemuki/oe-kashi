@@ -26,7 +26,7 @@ function App() {
 
   let lyricCoordinate = { x: 0, y: 0 }
 
-  function setCoordinate(x, y) {
+  const setCoordinate = (x, y) => {
     setMouseCoordinate({ x: x, y: y })
     lyricCoordinate = { x: x, y: y }
   }
