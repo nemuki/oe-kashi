@@ -1,5 +1,8 @@
 import { Box, Button, HStack, Select, Text, VStack } from '@chakra-ui/react'
-import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react'
+import {
+  IconPlayerPauseFilled,
+  IconPlayerPlayFilled,
+} from '@tabler/icons-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { contestSongs } from '../ContestSongsConstraint.js'
@@ -47,13 +50,12 @@ function TextAliveController(props) {
       <HStack>
         <Button
           colorScheme="teal"
-          id="play"
           isDisabled={props.playButton}
           leftIcon={
             status !== 'play' ? (
-              <IconPlayerPlay size={16} />
+              <IconPlayerPlayFilled size={16} />
             ) : (
-              <IconPlayerPause size={16} />
+              <IconPlayerPauseFilled size={16} />
             )
           }
           onClick={status !== 'play' ? handlePlay : handlePause}
@@ -62,7 +64,6 @@ function TextAliveController(props) {
           {status !== 'play' ? '再生' : '一時停止'}
         </Button>
         <Button
-          id="stop"
           isDisabled={props.disabled || status === 'stop'}
           onClick={handleStop}
           size="sm"
@@ -91,8 +92,8 @@ function TextAliveController(props) {
         </Select>
       </HStack>
       <Box>
-        <Text id="artist">artist: {props.artistName}</Text>
-        <Text id="song">song: {props.songName}</Text>
+        <Text>artist: {props.artistName}</Text>
+        <Text>song: {props.songName}</Text>
       </Box>
     </VStack>
   )
