@@ -2,9 +2,20 @@
 
 [![CI / CD](https://github.com/nemuki/negi/actions/workflows/ci.yml/badge.svg)](https://github.com/nemuki/negi/actions/workflows/ci.yml)
 
+[初音ミク「マジカルミライ 2023」 プログラミング・コンテスト](https://magicalmirai.com/2023/procon/) 応募作品
+
 歌詞で一筆書きの絵を描ける。二次創作に繋げたい
 
-デプロイ先: <https://oe-kashi.pages.dev>
+main ブランチデプロイ先: <https://oe-kashi.pages.dev>
+
+## 推奨動作環境
+
+- PC
+  - Google Chrome 最新版
+- iOS, iPad OS
+  - Safari 最新版
+- Android
+  - Google Chrome 最新版
 
 ## 開発ビルド
 
