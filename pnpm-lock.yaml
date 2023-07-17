@@ -29,9 +29,6 @@ dependencies:
   textalive-app-api:
     specifier: ^0.3.2
     version: 0.3.2
-  the-new-css-reset:
-    specifier: ^1.9.0
-    version: 1.9.0
 
 devDependencies:
   '@eslint/js':
@@ -4335,10 +4332,6 @@ packages:
       songle-api: 1.2.2
     transitivePeerDependencies:
       - debug
-    dev: false
-
-  /the-new-css-reset@1.9.0:
-    resolution: {integrity: sha512-bKM9xgiVFTqSuWle952Xu/YWE7qYMzPHWxerO0edxjBfPIm2T4k2tRpIJ45IU7knY35Jr6Fb5P/TVm2RIsB//Q==}
     dev: false
 
   /tiny-invariant@1.3.1:
