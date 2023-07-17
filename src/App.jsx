@@ -15,6 +15,7 @@ function App() {
   const [songName, setSongName] = useState('')
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true)
   const [lyrics, setLyrics] = useState([{ x: 0, y: 0, char: '' }])
+  const [mouseCoordinate, setMouseCoordinate] = useState({ x: 0, y: 0 })
 
   const media = useMemo(
     () => <div className="media" ref={setMediaElement} />,
@@ -22,9 +23,6 @@ function App() {
   )
 
   let mouseCoordinates = { x: 0, y: 0 }
-
-  const stalker = document.getElementById('stalker')
-  const coordinates = document.getElementById('coordinates')
 
   if (isMobile) {
     document.addEventListener('touchmove', function (event) {
@@ -35,15 +33,13 @@ function App() {
         const x = Math.floor(touch[i].pageX)
         const y = Math.floor(touch[i].pageY)
 
-        stalker.style.transform = `translate(${x}px, ${y}px)`
-        coordinates.innerText = `x: ${x}, y: ${y}`
+        setMouseCoordinate({ x: x, y: y })
         mouseCoordinates = { x: x, y: y }
       }
     })
   } else {
     document.addEventListener('mousemove', function (event) {
-      stalker.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
-      coordinates.innerText = `x: ${event.clientX}, y: ${event.clientY}`
+      setMouseCoordinate({ x: event.clientX, y: event.clientY })
       mouseCoordinates = { x: event.clientX, y: event.clientY }
     })
   }
@@ -140,8 +136,16 @@ function App() {
           </div>
         ))}
       </div>
-      <Text p={2} id="coordinates"></Text>
-      <div id="stalker"></div>
+      <Text
+        p={2}
+        id="coordinates"
+      >{`${mouseCoordinate.x}px, ${mouseCoordinate.y}px`}</Text>
+      <div
+        id="stalker"
+        style={{
+          transform: `translate(${mouseCoordinate.x}px, ${mouseCoordinate.y}px)`,
+        }}
+      ></div>
       {media}
     </>
   )
