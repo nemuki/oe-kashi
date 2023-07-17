@@ -2,9 +2,17 @@
 
 [![CI / CD](https://github.com/nemuki/negi/actions/workflows/ci.yml/badge.svg)](https://github.com/nemuki/negi/actions/workflows/ci.yml)
 
+<div align="center">
+  <img src="./img/oe-kashi.jpg">
+</div>
+
 [初音ミク「マジカルミライ 2023」 プログラミング・コンテスト](https://magicalmirai.com/2023/procon/) 応募作品
 
-歌詞で一筆書きの絵を描ける。二次創作に繋げたい
+歌詞で一筆書きの絵を描ける。二次創作に繋げたい。
+
+- 黒いマウスストーカーの位置に歌詞が表示されます。
+- 画面の解像度がキャンバスサイズになります。
+- 楽曲選択のセレクトボックスから選択すると表示されている歌詞はリセットされます。
 
 main ブランチデプロイ先: <https://oe-kashi.pages.dev>
 
