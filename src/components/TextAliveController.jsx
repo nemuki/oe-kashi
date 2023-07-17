@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
+import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
+import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react'
 
 function TextAliveController({
   playButton,
@@ -36,30 +38,39 @@ function TextAliveController({
   }, [player])
 
   return (
-    <div id="header" style={{ zIndex: 0 }}>
-      <div id="control" className="far">
-        <button
-          type={'button'}
+    <VStack align={'fit'} style={{ zIndex: 0 }}>
+      <HStack>
+        <Button
+          colorScheme="teal"
+          size="sm"
           onClick={status !== 'play' ? handlePlay : handlePause}
           id="play"
-          disabled={playButton}
+          isDisabled={playButton}
+          leftIcon={
+            status !== 'play' ? (
+              <IconPlayerPlay size={16} />
+            ) : (
+              <IconPlayerPause size={16} />
+            )
+          }
         >
           {status !== 'play' ? '再生' : '一時停止'}
-        </button>
-        <button
+        </Button>
+        <Button
+          size="sm"
           type={'button'}
           onClick={handleStop}
           id="stop"
-          disabled={disabled || status === 'stop'}
+          isDisabled={disabled || status === 'stop'}
         >
           リセット
-        </button>
-      </div>
-      <div id="meta">
-        <div id="artist">artist: {artistName}</div>
-        <div id="song">song: {songName}</div>
-      </div>
-    </div>
+        </Button>
+      </HStack>
+      <Box>
+        <Text id="artist">artist: {artistName}</Text>
+        <Text id="song">song: {songName}</Text>
+      </Box>
+    </VStack>
   )
 }
 
