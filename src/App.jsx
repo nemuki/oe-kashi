@@ -120,6 +120,8 @@ function App() {
           disabled={app.managed}
           player={player}
           songName={songName}
+          songList={contestSongs}
+          setSong={setSong}
           artistName={artistName}
           setLyrics={setLyrics}
         />
