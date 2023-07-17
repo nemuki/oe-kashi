@@ -3,7 +3,6 @@ import './styles/App.css'
 import { Player } from 'textalive-app-api'
 import TextAliveController from './components/TextAliveController.jsx'
 import { contestSongs } from './ContestSongsConstraint.js'
-import { isMobile } from 'react-device-detect'
 
 function App() {
   const [app, setApp] = useState(null)
@@ -22,17 +21,16 @@ function App() {
     [],
   )
 
-  const mouseCoordinates = { x: 0, y: 0 }
+  let mouseCoordinates = { x: 0, y: 0 }
 
-  //マウスストーカー用のdivを取得
   const stalker = document.getElementById('stalker')
   const coordinates = document.getElementById('coordinates')
 
-  //上記のdivタグをマウスに追従させる処理
   document.addEventListener('mousemove', function (e) {
     stalker.style.transform =
       'translate(' + e.clientX + 'px, ' + e.clientY + 'px)'
     coordinates.innerText = `x: ${e.clientX}, y: ${e.clientY}`
+    mouseCoordinates = { x: e.clientX, y: e.clientY }
   })
 
   useEffect(() => {
@@ -72,39 +70,17 @@ function App() {
         while (charLyric && charLyric.next) {
           charLyric.animate = (now, unit) => {
             if (unit.startTime <= now && unit.endTime > now) {
-              if (isMobile) {
-                ontouchmove = (event) => {
-                  if (unit.text !== oldPhrase) {
-                    event.preventDefault()
-                    const touch = event.changedTouches
-                    for (let i = 0; i < touch.length; i++) {
-                      setLyrics((lyrics) => [
-                        ...lyrics,
-                        {
-                          x: touch[i].pageX,
-                          y: touch[i].pageY,
-                          char: unit.text,
-                        },
-                      ])
-                    }
-                  }
-                  oldPhrase = unit.text
-                }
-              } else {
-                onpointermove = (event) => {
-                  if (unit.text !== oldPhrase) {
-                    setLyrics((lyrics) => [
-                      ...lyrics,
-                      {
-                        x: event.x,
-                        y: event.y,
-                        char: unit.text,
-                      },
-                    ])
-                  }
-                  oldPhrase = unit.text
-                }
+              if (unit.text !== oldPhrase) {
+                setLyrics((lyrics) => [
+                  ...lyrics,
+                  {
+                    x: mouseCoordinates.x,
+                    y: mouseCoordinates.y,
+                    char: unit.text,
+                  },
+                ])
               }
+              oldPhrase = unit.text
             }
           }
           charLyric = charLyric.next
