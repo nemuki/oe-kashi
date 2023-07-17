@@ -18,6 +18,11 @@
     "pages:deploy": "wrangler pages publish dist"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.7.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@tabler/icons-react": "^2.25.0",
+    "framer-motion": "^10.12.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "textalive-app-api": "^0.3.2",
