@@ -36,6 +36,7 @@ function TextAliveController(props) {
   const onChangeSongUrl = useCallback(
     (url) => {
       props.player && url && props.player.createFromSongUrl(url)
+      props.setLyrics([{ x: 0, y: 0, char: '' }])
     },
     [props.player],
   )
