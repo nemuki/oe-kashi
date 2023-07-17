@@ -26,6 +26,11 @@ function App() {
 
   let lyricCoordinate = { x: 0, y: 0 }
 
+  function setCoordinate(x, y) {
+    setMouseCoordinate({ x: x, y: y })
+    lyricCoordinate = { x: x, y: y }
+  }
+
   if (isMobile) {
     document.addEventListener('touchmove', (event) => {
       event.preventDefault()
@@ -35,8 +40,7 @@ function App() {
         const x = Math.floor(touch[i].pageX)
         const y = Math.floor(touch[i].pageY)
 
-        setMouseCoordinate({ x: x, y: y })
-        lyricCoordinate = { x: x, y: y }
+        setCoordinate(x, y)
       }
     })
   } else {
@@ -44,8 +48,7 @@ function App() {
       const x = event.clientX
       const y = event.clientY
 
-      setMouseCoordinate({ x: x, y: y })
-      lyricCoordinate = { x: x, y: y }
+      setCoordinate(x, y)
     })
   }
 
@@ -104,8 +107,8 @@ function App() {
       },
     }
     player.addListener(playerListener)
-
     setPlayer(player)
+
     return () => {
       player.removeListener(playerListener)
       player.dispose()
