@@ -66,8 +66,8 @@ function App() {
       /* APIの準備ができたら呼ばれる */
       onAppReady: (app) => {
         if (!app.songUrl) {
-          player.createFromSongUrl(contestSongs[1].url, {
-            video: contestSongs[1].video,
+          player.createFromSongUrl(contestSongs[3].url, {
+            video: contestSongs[3].video,
           })
         }
         setApp(app)
