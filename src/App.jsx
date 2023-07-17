@@ -126,7 +126,7 @@ function App() {
           </div>
         ))}
       </div>
-      <p id="coordinates">zx</p>
+      <p id="coordinates"></p>
       <div id="stalker"></div>
       {media}
     </>
