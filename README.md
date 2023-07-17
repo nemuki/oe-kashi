@@ -1,22 +1,50 @@
-# oe-kashi
-
-おえかし お絵歌詞 お絵描詞
+# oe-kashi | お絵歌詞
 
 [![CI / CD](https://github.com/nemuki/negi/actions/workflows/ci.yml/badge.svg)](https://github.com/nemuki/negi/actions/workflows/ci.yml)
 
+歌詞で一筆書きの絵を描ける。二次創作に繋げたい
+
 デプロイ先: <https://oe-kashi.pages.dev>
 
-目標: 歌詞で絵を描く
+## 開発ビルド
 
-歌詞で一筆書きの絵を描ける。二次創作に繋がる。
+[Volta](https://volta.sh/) を使用して Node.js のバージョンを管理しています。
 
-- [x] マウスのある位置に歌詞がおける
-  - [x] 量の調整
-  - [ ] マウスイベントの範囲調整
-  - [ ] スマホ対応
-- [x] 文字が出た時にエフェクトがかかる
-- [ ] 文字の色が変えられる
-- [ ] 後ろに何かトレースできる
+### 1. クローン
+
+```shell
+git clone https://github.com/nemuki/oe-kashi.git
+cd oe-kashi
+```
+
+### 2. `.env` 作成
+
+`{YOUR_TOKEN}` の部分は置き換えてください
+
+```shell
+echo 'VITE_TEXT_ALIVE_APP_API_TOKEN={YOUR_TOKEN}' > .env
+```
+
+### 3. pnpm のインストール && 依存関係インストール
+
+```shell
+volta install pnpm
+pnpm install
+```
+
+### 4. 開発サーバー立ち上げ
+
+```shell
+pnpm dev
+```
+
+## 本番ビルド
+
+開発ビルドの手順 `1. ~ 3.` を行った後に以下を実行してください。 実行後、`dist/` 内にビルドファイルが生成されます。
+
+```shell
+pnpm build
+```
 
 ## TextAlive App API
 
