@@ -2,9 +2,7 @@
 
 [![CI / CD](https://github.com/nemuki/negi/actions/workflows/ci.yml/badge.svg)](https://github.com/nemuki/negi/actions/workflows/ci.yml)
 
-<div align="center">
-  <img src="./img/oe-kashi.jpg">
-</div>
+![oe-kashi header image](./img/oe-kashi.jpg)
 
 [初音ミク「マジカルミライ 2023」 プログラミング・コンテスト](https://magicalmirai.com/2023/procon/) 応募作品
 
