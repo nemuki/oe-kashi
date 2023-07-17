@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
 import { Box, Button, HStack, Select, Text, VStack } from '@chakra-ui/react'
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react'
+import { useCallback, useEffect, useState } from 'react'
+
 import { contestSongs } from '../ContestSongsConstraint.js'
 
 function TextAliveController(props) {
@@ -32,22 +33,20 @@ function TextAliveController(props) {
   const handleStop = useCallback(() => {
     props.player && props.player.requestStop()
     props.setLyrics([{ x: 0, y: 0, char: '' }])
-  }, [props.player])
+  }, [props])
   const onChangeSongUrl = useCallback(
     (url, video) => {
       props.player && url && props.player.createFromSongUrl(url, video)
       props.setLyrics([{ x: 0, y: 0, char: '' }])
     },
-    [props.player],
+    [props],
   )
 
   return (
-    <VStack align={'fit'} p={2} style={{ zIndex: 0 }}>
+    <VStack align="fit" p={2} style={{ zIndex: 0 }}>
       <HStack>
         <Button
           colorScheme="teal"
-          size="sm"
-          onClick={status !== 'play' ? handlePlay : handlePause}
           id="play"
           isDisabled={props.playButton}
           leftIcon={
@@ -57,22 +56,21 @@ function TextAliveController(props) {
               <IconPlayerPause size={16} />
             )
           }
+          onClick={status !== 'play' ? handlePlay : handlePause}
+          size="sm"
         >
           {status !== 'play' ? '再生' : '一時停止'}
         </Button>
         <Button
-          size="sm"
-          type={'button'}
-          onClick={handleStop}
           id="stop"
           isDisabled={props.disabled || status === 'stop'}
+          onClick={handleStop}
+          size="sm"
+          type="button"
         >
           リセット
         </Button>
         <Select
-          placeholder="楽曲を選択"
-          size={'sm'}
-          w={'auto'}
           onChange={(event) => {
             if (event.target.value !== '') {
               onChangeSongUrl(
@@ -81,9 +79,14 @@ function TextAliveController(props) {
               )
             }
           }}
+          placeholder="楽曲を選択"
+          size="sm"
+          w="auto"
         >
           {contestSongs.map((song, index) => (
-            <option value={index}>{song.name}</option>
+            <option key={index} value={index}>
+              {song.name}
+            </option>
           ))}
         </Select>
       </HStack>

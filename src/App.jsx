@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from 'react'
-import './styles/App.css'
-import { Player } from 'textalive-app-api'
-import TextAliveController from './components/TextAliveController.jsx'
-import { contestSongs } from './ContestSongsConstraint.js'
-import { isMobile } from 'react-device-detect'
 import { Text } from '@chakra-ui/react'
+import { useEffect, useMemo, useState } from 'react'
+import { isMobile } from 'react-device-detect'
+import { Player } from 'textalive-app-api'
+
+import { contestSongs } from './ContestSongsConstraint.js'
+import TextAliveController from './components/TextAliveController.jsx'
+
+import './styles/App.css'
 
 function App() {
   const [app, setApp] = useState(null)
@@ -108,26 +110,25 @@ function App() {
       player.removeListener(playerListener)
       player.dispose()
     }
-  }, [mediaElement])
+  }, [lyricCoordinate.x, lyricCoordinate.y, mediaElement])
 
   return (
     <>
       {player && app && (
         <TextAliveController
-          playButton={isPlayButtonDisabled}
-          disabled={app.managed}
-          player={player}
-          songName={songName}
-          songList={contestSongs}
           artistName={artistName}
+          disabled={app.managed}
+          playButton={isPlayButtonDisabled}
+          player={player}
           setLyrics={setLyrics}
+          songName={songName}
         />
       )}
       <div>
         {lyrics.map((lyric, index) => (
           <div
+            className="ripples"
             key={index}
-            className={'ripples'}
             style={{
               position: 'absolute',
               left: lyric.x,
@@ -140,15 +141,15 @@ function App() {
         ))}
       </div>
       <Text
-        p={2}
         className="coordinates"
+        p={2}
       >{`${mouseCoordinate.x}px, ${mouseCoordinate.y}px`}</Text>
       <div
         className="stalker"
         style={{
           transform: `translate(${mouseCoordinate.x}px, ${mouseCoordinate.y}px)`,
         }}
-      ></div>
+      />
       {media}
     </>
   )

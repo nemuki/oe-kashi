@@ -11,8 +11,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint . --ext js,cjs,jsx",
+    "lint:fix": "eslint --fix . --ext js,cjs,jsx",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "pages:deploy": "wrangler pages publish dist"

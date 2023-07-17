@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   root: true,
   env: {
@@ -36,6 +37,7 @@ module.exports = {
       },
     ],
     quotes: ['error', 'single', { avoidEscape: true }],
+    'react/prop-types': 'off',
     'react/jsx-boolean-value': 'error',
     'react/jsx-curly-brace-presence': 'error',
     'react/jsx-sort-props': 'error',
