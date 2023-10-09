@@ -39,7 +39,7 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "prettier": "^3.0.0",
     "react-device-detect": "^2.2.3",
-    "vite": "^4.4.4",
+    "vite": "^4.4.11",
     "wrangler": "^3.2.0"
   }
 }
